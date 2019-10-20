@@ -36,3 +36,5 @@ This will make the drone take off and initialize a video feed directly from the 
 - [ ] Support drone centering with multiple users in a shot
 - [ ] Optimize code for better video performance
 - [ ] Implement trainable model for face recognition into the detection process (Follow just certain faces)
+
+Original Github link to Face Detection and Tracking: https://github.com/juanmapf97/Tello-Face-Recognition
