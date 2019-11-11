@@ -7,7 +7,7 @@ The current implementation allows the user to:
 - Launch the drone through the command line using `python main.py`
 - Receive video feed from the drone to the computer and visualize the face detection carried out by the drone
 
-It allows the drone to:
+It also allows the drone to:
 
 - Detect multiple faces at any given frame
 - Position the user at the center of any shot by deciding the best movement based on the users x, y and z coordinates
