@@ -1,13 +1,15 @@
 import numpy as np
 import cv2 as cv
 import tello_drone as tello
+import pickle
 
 host = ''
 port = 9000
 local_address = (host, port)
 
 # Pass the is_dummy flag to run the face detection on a local camera
-drone = tello.Tello(host, port, is_dummy=False)
+#drone = tello.Tello(host, port, is_dummy=True) #local camera
+drone = tello.Tello(host, port, is_dummy=False) #tello camera
 
 def adjust_tello_position(offset_x, offset_y, offset_z):
     """
@@ -36,7 +38,16 @@ def adjust_tello_position(offset_x, offset_y, offset_z):
             drone.move_backward(20) 
 
 
-face_cascade = cv.CascadeClassifier('cascades/haarcascade_frontalface_default.xml')
+face_cascade = cv.CascadeClassifier('cascades/lbpcascade_frontalface_improved.xml')
+#face_cascade = cv.CascadeClassifier('cascades/haarcascade_frontalface_default.xml')
+recognizer = cv.face.LBPHFaceRecognizer_create()
+recognizer.read("trainer.yml")
+
+labels = {}
+with open("labels.pickle", 'rb') as f:
+    oglabels = pickle.load(f)
+    labels = {v:k for k,v in oglabels.items()}
+
 frame_read = drone.get_frame_read()
 while True:
     # frame = cv.cvtColor(frame_read.frame, cv.COLOR_BGR2RGB)
@@ -62,9 +73,27 @@ while True:
     face_center_x = center_x
     face_center_y = center_y
     z_area = 0
+
+    color = (255,0,0) #color blue
+    stroke = 2 #line thickness
     for face in faces:
         (x, y, w, h) = face
-        cv.rectangle(frame,(x, y),(x + w, y + h),(255, 255, 0), 2)
+        roi_gray = gray[y:y+h,x:x+w]
+
+        id_,conf = recognizer.predict(roi_gray)
+        print(f"Confidence rating: {conf}")
+        if conf >= 65: # if confidence rating is over set value will display name on top of rectangle 
+            #print(id_)
+            name = labels[id_]
+            font = cv.FONT_HERSHEY_SIMPLEX            
+            cv.putText(frame,name,(x,y), font, 1, color, stroke, cv.LINE_AA) 
+        #else:
+            #drone.rotate_ccw(10)
+
+        #img_item = "frameImg.png"
+        #cv.imwrite(img_item, roi_gray)
+
+        cv.rectangle(frame,(x, y),(x + w, y + h), color, stroke)
 
         face_center_x = x + int(h/2)
         face_center_y = y + int(w/2)
@@ -77,7 +106,7 @@ while True:
     # Add 30 so that the drone covers as much of the subject as possible
     offset_y = face_center_y - center_y - 30
 
-    cv.putText(frame, f'[{offset_x}, {offset_y}, {z_area}]', (10, 50), cv.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv.LINE_AA)
+    #cv.putText(frame, f'[{offset_x}, {offset_y}, {z_area}]', (10, 50), cv.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv.LINE_AA)
     adjust_tello_position(offset_x, offset_y, z_area)
     
     # Display the resulting frame
