@@ -64,7 +64,7 @@ def adjust_tello_position(offset_x, offset_y, offset_z):
 def rotate(r,d):
 
 
-    # drone.rotate_ccw(r)
+    drone.rotate_ccw(r)
     r = d + r
     # time.sleep(2)
     return r
@@ -131,7 +131,7 @@ def move_2Marker( box ):
 
     p, x, y = pixel( box )
     d = calc_distance( p, x, y )
-    # drone.move_forward( d )
+    drone.move_forward( d )
 
 
 
@@ -218,7 +218,7 @@ found = False
 
 while True:
 
-# while True:
+
 
 
 # testing : getting biggest contour and bounding box to it
@@ -240,11 +240,11 @@ while True:
     z_area = 0
 
     """
-    if area from f_Marker is below threshold this case 2000 and found
+    if area from f_Marker is below threshold this case 1000 and found
     continues to be false rotate drone which acts as a search for object.
     """
-    if area != 0:
-        print (area)
+    
+    
     if area < 1000 and found == False:
         # rotates drone
         s = rotate( 8,s )
