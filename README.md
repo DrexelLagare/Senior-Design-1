@@ -1,5 +1,15 @@
 # Senior Design 
 
+- Facial Recognition
+    1. Find a person in the room
+    2. Count the number of people in the room
+    
+- Object Tracking:
+    1. Tracking an object as it moves across the camera
+    2. Finding an object in the room
+    3. Counting Pads
+    
+
 # Find a Person in the Room
 1. Finding a person in the room in a controlled environment in which everybody is facing the drone and the drone will slowly pan in a      circle to detect a face. 
 2. Once a face is detected then the drone will make a comparison using the LBPH facial recogniton implemented in main.py. 
@@ -55,13 +65,13 @@ pip install -r requirements.txt
   ```
 4. Drone launches and starts searching
 
-
-
 ## Next Steps
 - [ ] Make the facial recognition more accurate
 - [ ] Fix warning messages when executing the command and waiting for drone video feed
 - [ ] Support drone centering with multiple users in a shot
 - [ ] Optimize code for better video performance
-
-
+ 
 Original Github link to Face Detection and Tracking: https://github.com/juanmapf97/Tello-Face-Recognition
+
+## Object Tracking
+
