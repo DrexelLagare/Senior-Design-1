@@ -91,7 +91,11 @@ Original Github link to Face Detection and Tracking: https://github.com/juanmapf
   ```
 4. Once a person is found press the space bar to update counter.
 
+
+
 ## Object Tracking Implementations:
+
+
 
 
 ## Object Tracking using KCF
