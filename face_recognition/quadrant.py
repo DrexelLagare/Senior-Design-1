@@ -155,7 +155,7 @@ while True:
     cv.imshow('Tello detection...', frame)
     if cv.waitKey(1) == ord('x'):
         break
-
+#
 # Stop the BackgroundFrameRead and land the drone
 drone.end()
 cv.destroyAllWindows()
